@@ -9,10 +9,12 @@ import 'moment/locale/pt-br'
 
 export default props => {
 
-    const doneOrNot = props.doneAt ? { textDecorationLine: 'line-through' } : {}
-    const formatedDate = moment(props.doneAt ? props.doneAt : props.estimateAt)
-      .locale("pt-br")
-      .format("dddd, D [de] MMMM");
+    const paidOrNot = props.paidAt ? { textDecorationLine: 'line-through' } : {}
+    const formatedDate = props.paidAt ? 
+        moment(props.paidAt)
+        .locale("pt-br")
+        .format("dddd, D [de] MMMM") : 
+        '(pendente)'
 
     const getRightContent = () => {
         return (
@@ -46,11 +48,11 @@ export default props => {
             onPress={() => props.onToggleBill(props.id)}
           >
             <View style={styles.checkContainer}>
-              {getCheckView(props.doneAt)}
+              {getCheckView(props.paidAt)}
             </View>
           </TouchableWithoutFeedback>
           <View>
-            <Text style={[styles.desc, doneOrNot]}>{props.desc}</Text>
+            <Text style={[styles.desc, paidOrNot]}>{props.desc}</Text>
             <Text style={styles.date}>{formatedDate}</Text>
             {/* <Text>{props.doneAt + ""}</Text> */}
           </View>
@@ -59,19 +61,19 @@ export default props => {
     );
 }
 
-function getCheckView(doneAt) {
-    if (doneAt) 
-        return (
-          <View style={styles.done}>
-            <Ionicons name="checkmark" size={20} color="#fff"></Ionicons>
-          </View>
-        );
-    else
-        return (
-          <View style={styles.pending}>
-            <Text></Text>
-          </View>
-        );
+function getCheckView(paidAt) {
+  if (paidAt)
+    return (
+      <View style={styles.paid}>
+        <Ionicons name="checkmark" size={20} color="#fff"></Ionicons>
+      </View>
+    );
+  else
+    return (
+      <View style={styles.pending}>
+        <Text></Text>
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#555",
   },
-  done: {
+  paid: {
     height: 25,
     width: 25,
     borderRadius: 13,

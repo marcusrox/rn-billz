@@ -56,7 +56,7 @@ export default class BillList extends Component {
     if (this.state.showDoneBills) {
       visibleBills = [...this.state.bills];
     } else {
-      const pending = (bill) => bill.doneAt === null;
+      const pending = (bill) => bill.paidAt === null;
       visibleBills = this.state.bills.filter(pending);
     }
 
@@ -68,7 +68,7 @@ export default class BillList extends Component {
     const bills = [...this.state.bills];
     bills.forEach((bill) => {
       if (bill.id === billId) {
-        bill.doneAt = bill.doneAt ? null : new Date();
+        bill.paidAt = bill.paidAt ? null : new Date();
       }
     });
 
@@ -90,7 +90,7 @@ export default class BillList extends Component {
       id: Math.random(),
       desc: newBill.desc,
       date: newBill.date,
-      doneAt: null,
+      paidAt: null,
     });
     this.setState({ bills, showAddBill: false }, this.filterBills);
   };
